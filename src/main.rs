@@ -7,10 +7,8 @@ fn main() {
     let mut model = Model::new();
     let urdf_path = "tests/anymal_b_simple_description/urdf/anymal.urdf";
     let base_joint_type = BaseJointType::FloatingBase;
-    let model2 = model.clone();
-    // model.build_model_from_urdf(&urdf_path, &base_joint_type);
+    model.build_model_from_urdf(&urdf_path, &base_joint_type);
     let mut data = Data::new(&model);
-    let data2 = data.clone();
 
     println!("main");
 }

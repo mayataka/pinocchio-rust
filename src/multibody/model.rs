@@ -1,4 +1,4 @@
-use cxx::{UniquePtr, CxxString, let_cxx_string, ExternType, type_id};
+use cxx::{UniquePtr, CxxString, let_cxx_string};
 
 #[cxx::bridge(namespace = "pinocchio")]
 pub mod ffi_model {
