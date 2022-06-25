@@ -14,9 +14,9 @@ std::unique_ptr<Data> createData(const std::unique_ptr<Model>& model);
 
 std::unique_ptr<Data> cloneData(const std::unique_ptr<Data>& data);
 
-std::uint32_t nframes(const std::unique_ptr<Data>& data);
+std::uint32_t nframesInData(const std::unique_ptr<Data>& data);
 
-std::uint32_t njoints(const std::unique_ptr<Data>& data);
+std::uint32_t njointsInData(const std::unique_ptr<Data>& data);
 
 std::unique_ptr<std::vector<double>> frameTranslation(const std::unique_ptr<Data>& data, 
                                                       const std::uint32_t& frame_id);

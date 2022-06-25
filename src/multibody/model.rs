@@ -1,9 +1,5 @@
 use cxx::{UniquePtr, CxxString, let_cxx_string};
-use libc::int32_t;
 use std::fmt::{self, write};
-use std::vec::Vec;
-
-use self::ffi_model::getModelName;
 
 #[cxx::bridge(namespace = "pinocchio")]
 pub mod ffi_model {

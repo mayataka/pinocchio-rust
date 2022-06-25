@@ -1,3 +1,4 @@
+mod math;
 mod multibody;
 
 pub use crate::multibody::model::*;
@@ -20,6 +21,6 @@ fn main() {
     let mut humanoid_data = Data::new(&humanoid);
     println!("{}", humanoid);
 
-    let frame_placement = humanoid_data.frame_placement(1);
-    println!("{}", frame_placement.unwrap());
+    // let frame_placement = humanoid_data.frame_placement(1);
+    // println!("{}", frame_placement.unwrap());
 }

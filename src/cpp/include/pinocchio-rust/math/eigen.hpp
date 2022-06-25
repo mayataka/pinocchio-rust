@@ -8,7 +8,7 @@
 
 namespace Eigen {
 
-inline std::unique_ptr<std::vector<double>> Vector3dToStdVec(const Vector3d& v) {
+inline std::unique_ptr<std::vector<double>> Vector3dToStdVecUniquePtr(const Vector3d& v) {
   auto vec = std::make_unique<std::vector<double>>();
   for (int i=0; i<3; ++i) {
     vec->push_back(v.coeff(i));
@@ -16,7 +16,7 @@ inline std::unique_ptr<std::vector<double>> Vector3dToStdVec(const Vector3d& v) 
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> Vector4dToStdVec(const Vector4d& v) {
+inline std::unique_ptr<std::vector<double>> Vector4dToStdVecUniquePtr(const Vector4d& v) {
   auto vec = std::make_unique<std::vector<double>>();
   for (int i=0; i<4; ++i) {
     vec->push_back(v.coeff(i));
@@ -24,7 +24,7 @@ inline std::unique_ptr<std::vector<double>> Vector4dToStdVec(const Vector4d& v) 
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> VectorXdToStdVec(const VectorXd& v) {
+inline std::unique_ptr<std::vector<double>> VectorXdToStdVecUniquePtr(const VectorXd& v) {
   auto vec = std::make_unique<std::vector<double>>();
   const auto size = v.size();
   for (int i=0; i<size; ++i) {
@@ -33,7 +33,7 @@ inline std::unique_ptr<std::vector<double>> VectorXdToStdVec(const VectorXd& v) 
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> Matrix3dToStdVec(const Matrix3d& m) {
+inline std::unique_ptr<std::vector<double>> Matrix3dToStdVecUniquePtr(const Matrix3d& m) {
   auto vec = std::make_unique<std::vector<double>>();
   for (int i=0; i<3; ++i) {
     for (int j=0; j<3; ++i) {
@@ -43,7 +43,7 @@ inline std::unique_ptr<std::vector<double>> Matrix3dToStdVec(const Matrix3d& m) 
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> Matrix4dToStdVec(const Matrix4d& m) {
+inline std::unique_ptr<std::vector<double>> Matrix4dToStdVecUniquePtr(const Matrix4d& m) {
   auto vec = std::make_unique<std::vector<double>>();
   for (int i=0; i<4; ++i) {
     for (int j=0; j<4; ++i) {
@@ -53,7 +53,7 @@ inline std::unique_ptr<std::vector<double>> Matrix4dToStdVec(const Matrix4d& m) 
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> MatrixXdToStdVec(const MatrixXd& m) {
+inline std::unique_ptr<std::vector<double>> MatrixXdToStdVecUniquePtr(const MatrixXd& m) {
   auto vec = std::make_unique<std::vector<double>>();
   const auto cols = m.cols();
   const auto rows = m.rows();
