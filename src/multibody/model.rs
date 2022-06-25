@@ -1,4 +1,5 @@
 use cxx::{UniquePtr, CxxString, let_cxx_string};
+use std::fmt::{self, write};
 
 #[cxx::bridge(namespace = "pinocchio")]
 pub mod ffi_model {
@@ -9,6 +10,9 @@ pub mod ffi_model {
         fn createModel() -> UniquePtr<Model>;
         fn cloneModel(model: &UniquePtr<Model>) -> UniquePtr<Model>;
         fn buildModelFromUrdf(model: &mut UniquePtr<Model>, urdf_path: &CxxString, floating_base: &bool);
+        fn buildSampleManipulator(model: &mut UniquePtr<Model>);
+        fn buildSampleHumanoid(model: &mut UniquePtr<Model>);
+        fn display(model: &UniquePtr<Model>) -> UniquePtr<CxxString>;
     }
 }
 
@@ -43,5 +47,21 @@ impl Model {
             let floating_base = false;
             ffi_model::buildModelFromUrdf(&mut self.ptr, &cxx_urdf_path, &floating_base);
         }
+    }
+
+    pub fn build_sample_manipulator(&mut self) {
+        ffi_model::buildSampleManipulator(&mut self.ptr);
+    }
+
+    pub fn build_sample_humanoid(&mut self) {
+        ffi_model::buildSampleHumanoid(&mut self.ptr);
+    }
+}
+
+
+impl fmt::Display for Model {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let cxx_str = ffi_model::display(&self.ptr);
+        write!(f, "{}", cxx_str.to_string())
     }
 }
