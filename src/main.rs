@@ -19,4 +19,7 @@ fn main() {
     humanoid.build_sample_humanoid();
     let mut humanoid_data = Data::new(&humanoid);
     println!("{}", humanoid);
+
+    let frame_placement = humanoid_data.frame_placement(1);
+    println!("{}", frame_placement.unwrap());
 }

@@ -17,6 +17,28 @@ void buildSampleManipulator(std::unique_ptr<Model>& model);
 
 void buildSampleHumanoid(std::unique_ptr<Model>& model);
 
+bool existBodyName(const std::unique_ptr<Model>& model, const std::string &name);
+
+bool existJointName(const std::unique_ptr<Model>& model, const std::string &name);
+
+std::uint32_t getBodyId(const std::unique_ptr<Model>& model, const std::string &name);
+
+std::uint32_t getJointId(const std::unique_ptr<Model>& model, const std::string &name);
+
+std::unique_ptr<std::string> getModelName(const std::unique_ptr<Model>& model);
+
+std::vector<std::unique_ptr<std::string>> getJointNames(const std::unique_ptr<Model>& model);
+
+std::uint32_t nbodies(const std::unique_ptr<Model>& model);
+
+std::uint32_t nframes(const std::unique_ptr<Model>& model);
+
+std::uint32_t njoints(const std::unique_ptr<Model>& model);
+
+std::uint32_t nq(const std::unique_ptr<Model>& model);
+
+std::uint32_t nv(const std::unique_ptr<Model>& model);
+
 std::unique_ptr<std::string> display(const std::unique_ptr<Model>& model);
 
 }
