@@ -1,26 +1,14 @@
 use cxx::UniquePtr;
-use super::model;
+use crate::multibody::model::pinocchio::Model;
 
 #[cxx::bridge(namespace = "pinocchio")]
-pub mod ffi {
+pub mod pinocchio {
     unsafe extern "C++" {
-        include!("multibody/data.hpp");
+        include!("pinocchio-rust/multibody/data.hpp");
 
+        type Model = crate::multibody::pinocchio::Model;
         pub type Data;
-        type Model = model::ffi::Model;
-        fn new_data(model: &UniquePtr<Model>) -> UniquePtr<Data>;
-        fn clone(data : &Data) -> UniquePtr<Data>;
-    }
-}
-
-
-pub mod ffi {
-    pub unsafe impl Data {
-        pub fn new(model: &UniquePtr<Model>) -> UniquePtr<Data> {
-            new_data(model)
-        }
-        pub fn clone(&self) -> UniquePtr<Data> {
-            clone(&self)
-        }
+        pub fn create_data(model: &UniquePtr<Model>) -> UniquePtr<Data>;
+        pub fn clone(data : &Data) -> UniquePtr<Data>;
     }
 }

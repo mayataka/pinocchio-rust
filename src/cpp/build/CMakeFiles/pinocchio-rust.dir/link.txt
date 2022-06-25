@@ -1,0 +1,2 @@
+/usr/bin/ar qc libpinocchio-rust.a  CMakeFiles/pinocchio-rust.dir/src/multibody/model.cpp.o
+/usr/bin/ranlib libpinocchio-rust.a
