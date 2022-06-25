@@ -1,7 +1,7 @@
 mod multibody;
 
 pub use crate::multibody::model::*;
-// pub use crate::multibody::data::*;
+pub use crate::multibody::data::*;
 
 fn main() {
     let mut model = Model::new();
@@ -9,6 +9,8 @@ fn main() {
     let base_joint_type = BaseJointType::FloatingBase;
     let model2 = model.clone();
     // model.build_model_from_urdf(&urdf_path, &base_joint_type);
+    let mut data = Data::new(&model);
+    let data2 = data.clone();
 
     println!("main");
 }

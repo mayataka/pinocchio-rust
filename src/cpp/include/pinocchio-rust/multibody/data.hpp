@@ -7,7 +7,8 @@
 
 namespace pinocchio {
 
-std::unique_ptr<Data> newData(const std::unique_ptr<Model>& model);
-std::unique_ptr<Data> clone(const std::unique_ptr<Data>& data);
+std::unique_ptr<Data> createData(const std::unique_ptr<Model>& model);
+
+std::unique_ptr<Data> cloneData(const std::unique_ptr<Data>& data);
 
 }

@@ -1,5 +1,5 @@
 pub mod model;
-// mod data;
+pub mod data;
 
 pub use super::multibody::model::*;
-// pub use super::multibody::data::*;
+pub use super::multibody::data::*;

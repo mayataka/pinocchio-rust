@@ -4,17 +4,17 @@
 
 namespace pinocchio {
 
-std::unique_ptr<Model> create_model() {
+std::unique_ptr<Model> createModel() {
   return std::make_unique<Model>();
 }
 
-std::unique_ptr<Model> clone_model(const std::unique_ptr<Model>& model) {
+std::unique_ptr<Model> cloneModel(const std::unique_ptr<Model>& model) {
   return std::make_unique<Model>(*model.get());
 }
 
-void build_model_from_urdf(std::unique_ptr<Model>& model, 
-                           const std::string& urdf_path,
-                           const bool& floating_base) {
+void buildModelFromUrdf(std::unique_ptr<Model>& model, 
+                        const std::string& urdf_path,
+                        const bool& floating_base) {
   if (floating_base) {
     pinocchio::urdf::buildModel(urdf_path, pinocchio::JointModelFreeFlyer(), *model.get());
   }

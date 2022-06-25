@@ -27,13 +27,16 @@ fn main() {
         .flag_if_supported("-NDEBUG")
         .flag_if_supported("-march=native")
         .compile("model");
-    // cxx_build::bridge("src/multibody/data.rs")
-    //     .file("src/cpp/src/multibody/data.cpp")
-    //     .include("/usr/include/eigen3")
-    //     .include("/opt/openrobots/include")
-    //     .include("src/cpp/include")
-    //     // .flag_if_supported("-DPINOCCHIO_WITH_URDFDOM")
-    //     .compile("data");
+    cxx_build::bridge("src/multibody/data.rs")
+        .file("src/cpp/src/multibody/data.cpp")
+        .include("/usr/include/eigen3")
+        .include("/opt/openrobots/include")
+        .include("src/cpp/include")
+        .flag_if_supported("-std=c++14")
+        .flag_if_supported("-O3")
+        .flag_if_supported("-NDEBUG")
+        .flag_if_supported("-march=native")
+        .compile("data");
 
 
 }
