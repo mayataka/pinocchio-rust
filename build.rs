@@ -34,5 +34,5 @@ fn main() {
 
     println!("cargo:rerun-if-changed=src/main.rs");
     println!("cargo:rerun-if-changed=src/multibody/model.rs");
-    // println!("cargo:rerun-if-changed=src/multibody/data.rs");
+    println!("cargo:rerun-if-changed=src/multibody/data.rs");
 }

@@ -20,6 +20,12 @@ fn main() {
     println!("{}", humanoid);
     let mut humanoid_data = Data::new(&humanoid);
 
+    let frame_translation = humanoid_data.frame_translation(1);
+    println!("{}", frame_translation.unwrap());
+
+    let frame_rotation= humanoid_data.frame_rotation(1);
+    println!("{}", frame_rotation.unwrap());
+
     // let frame_placement = humanoid_data.frame_placement(1);
     // println!("{}", frame_placement.unwrap());
 }

@@ -8,7 +8,8 @@
 
 namespace Eigen {
 
-inline std::unique_ptr<std::vector<double>> Vector3dToStdVecUniquePtr(const Vector3d& v) {
+template <typename Vector3dType>
+inline std::unique_ptr<std::vector<double>> Vector3dToStdVecUniquePtr(const Vector3dType& v) {
   auto vec = std::make_unique<std::vector<double>>();
   vec->reserve(3);
   for (int i=0; i<3; ++i) {
@@ -17,7 +18,8 @@ inline std::unique_ptr<std::vector<double>> Vector3dToStdVecUniquePtr(const Vect
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> Vector4dToStdVecUniquePtr(const Vector4d& v) {
+template <typename Vector4dType>
+inline std::unique_ptr<std::vector<double>> Vector4dToStdVecUniquePtr(const Vector4dType& v) {
   auto vec = std::make_unique<std::vector<double>>();
   vec->reserve(4);
   for (int i=0; i<4; ++i) {
@@ -26,7 +28,8 @@ inline std::unique_ptr<std::vector<double>> Vector4dToStdVecUniquePtr(const Vect
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> VectorXdToStdVecUniquePtr(const VectorXd& v) {
+template <typename VectorXdType>
+inline std::unique_ptr<std::vector<double>> VectorXdToStdVecUniquePtr(const VectorXdType& v) {
   auto vec = std::make_unique<std::vector<double>>();
   const auto size = v.size();
   vec->reserve(size);
@@ -36,35 +39,38 @@ inline std::unique_ptr<std::vector<double>> VectorXdToStdVecUniquePtr(const Vect
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> Matrix3dToStdVecUniquePtr(const Matrix3d& m) {
+template <typename Matrix3dType>
+inline std::unique_ptr<std::vector<double>> Matrix3dToStdVecUniquePtr(const Matrix3dType& m) {
   auto vec = std::make_unique<std::vector<double>>();
   vec->reserve(9);
   for (int i=0; i<3; ++i) {
-    for (int j=0; j<3; ++i) {
+    for (int j=0; j<3; ++j) {
       vec->push_back(m.coeff(i, j));
     }
   }
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> Matrix4dToStdVecUniquePtr(const Matrix4d& m) {
+template <typename Matrix4dType>
+inline std::unique_ptr<std::vector<double>> Matrix4dToStdVecUniquePtr(const Matrix4dType& m) {
   auto vec = std::make_unique<std::vector<double>>();
   vec->reserve(16);
   for (int i=0; i<4; ++i) {
-    for (int j=0; j<4; ++i) {
+    for (int j=0; j<4; ++j) {
       vec->push_back(m.coeff(i, j));
     }
   }
   return vec;
 }
 
-inline std::unique_ptr<std::vector<double>> MatrixXdToStdVecUniquePtr(const MatrixXd& m) {
+template <typename MatrixXdType>
+inline std::unique_ptr<std::vector<double>> MatrixXdToStdVecUniquePtr(const MatrixXdType& m) {
   auto vec = std::make_unique<std::vector<double>>();
   const auto cols = m.cols();
   const auto rows = m.rows();
   vec->reserve(cols*rows);
   for (int i=0; i<cols; ++i) {
-    for (int j=0; j<rows; ++i) {
+    for (int j=0; j<rows; ++j) {
       vec->push_back(m.coeff(i, j));
     }
   }
