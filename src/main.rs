@@ -1,7 +1,9 @@
 mod multibody;
+mod algorithm;
 mod math;
 pub use crate::multibody::model::*;
 pub use crate::multibody::data::*;
+pub use crate::algorithm::frames::*;
 
 fn main() {
     // let mut model = Model::new();

@@ -109,7 +109,6 @@ pub unsafe fn cxxvec_to_matrix3_unchecked(cxx_vec: &UniquePtr<CxxVector<f64>>) -
     }
 }
 
-
 pub fn cxxvec_to_dmatrix(cxx_vec: &UniquePtr<CxxVector<f64>>, rows: u32, cols: u32) -> Option<DMatrix<f64>> {
     let rows = rows as usize;
     let cols = cols as usize;
@@ -128,7 +127,6 @@ pub fn cxxvec_to_dmatrix(cxx_vec: &UniquePtr<CxxVector<f64>>, rows: u32, cols: u
     }
 }
 
-
 pub unsafe fn cxxvec_to_dmatrix_unchecked(cxx_vec: &UniquePtr<CxxVector<f64>>, rows: u32, cols: u32) -> Option<DMatrix<f64>> {
     let rows = rows as usize;
     let cols = cols as usize;
@@ -146,3 +144,33 @@ pub unsafe fn cxxvec_to_dmatrix_unchecked(cxx_vec: &UniquePtr<CxxVector<f64>>, r
         None
     }
 }
+
+// #[cfg(any(feature = "std", feature = "alloc"))]
+// impl<N, R, C, S> Into<Vec<N>> for Matrix<N, R, C, S>
+// where
+//     N: Scalar,
+//     R: Dim,
+//     C: Dim,
+//     S: Storage<N, R, C>,
+// {
+//     fn into(self) -> Vec<N> {
+//         use std::iter::FromIterator;
+//         Vec::from_iter(self.into_iter().cloned())
+//     }
+// }
+
+
+// pub fn dvector_to_cxxvec(dvec: &DVector<f64>, size: u32) -> Option<UniquePtr<CxxVector<f64>>> {
+//     let len = dvec.len();
+//     let size = size as usize;
+//     if len == size {
+//         let mut cxxvec = UniquePtr::<CxxVector<f64>>::new();
+//         for i in 0..size {
+//             cxxvec.push(dvec[i]);
+//         }
+//         Some(cxxvec)
+//     }
+//     else {
+//         None
+//     }
+// }

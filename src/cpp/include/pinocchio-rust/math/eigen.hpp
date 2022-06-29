@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Eigen/Core"
+#include "rust/cxx.h"
 
 #include <vector>
 #include <memory>
@@ -9,115 +10,93 @@
 namespace Eigen {
 
 template <typename Vector3dType>
-inline std::unique_ptr<std::vector<double>> Vector3dToStdVecUniquePtr(const Vector3dType& v) {
-  auto vec = std::make_unique<std::vector<double>>();
-  vec->reserve(3);
-  for (int i=0; i<3; ++i) {
-    vec->push_back(v.coeff(i));
-  }
-  return vec;
+inline rust::Vec<double> Vector3dToRustVec(const Vector3dType& v) {
+  return rust::Vec<double>({v.coeff(0), v.coeff(1), v.coeff(2)});
 }
 
 template <typename Vector4dType>
-inline std::unique_ptr<std::vector<double>> Vector4dToStdVecUniquePtr(const Vector4dType& v) {
-  auto vec = std::make_unique<std::vector<double>>();
-  vec->reserve(4);
-  for (int i=0; i<4; ++i) {
-    vec->push_back(v.coeff(i));
-  }
-  return vec;
+inline rust::Vec<double> Vector4dToRustVec(const Vector4dType& v) {
+  return rust::Vec<double>({v.coeff(0), v.coeff(1), v.coeff(2), v.coeff(3)});
 }
 
 template <typename VectorXdType>
-inline std::unique_ptr<std::vector<double>> VectorXdToStdVecUniquePtr(const VectorXdType& v) {
-  auto vec = std::make_unique<std::vector<double>>();
+inline rust::Vec<double> VectorXdToRustVec(const VectorXdType& v) {
   const int size = v.size();
-  vec->reserve(size);
+  auto vec = rust::Vec<double>();
+  vec.reserve(size);
   for (int i=0; i<size; ++i) {
-    vec->push_back(v.coeff(i));
+    vec.push_back(v.coeff(i));
   }
   return vec;
 }
 
 template <typename Matrix3dType>
-inline std::unique_ptr<std::vector<double>> Matrix3dToStdVecUniquePtr(const Matrix3dType& m) {
-  auto vec = std::make_unique<std::vector<double>>();
-  vec->reserve(9);
-  for (int i=0; i<3; ++i) {
-    for (int j=0; j<3; ++j) {
-      vec->push_back(m.coeff(i, j));
-    }
-  }
-  return vec;
+inline rust::Vec<double> Matrix3dToRustVec(const Matrix3dType& m) {
+  return rust::Vec<double>({m.coeff(0), m.coeff(1), m.coeff(2),
+                            m.coeff(3), m.coeff(4), m.coeff(5), 
+                            m.coeff(6), m.coeff(7), m.coeff(8)});
 }
 
 template <typename Matrix4dType>
-inline std::unique_ptr<std::vector<double>> Matrix4dToStdVecUniquePtr(const Matrix4dType& m) {
-  auto vec = std::make_unique<std::vector<double>>();
-  vec->reserve(16);
-  for (int i=0; i<4; ++i) {
-    for (int j=0; j<4; ++j) {
-      vec->push_back(m.coeff(i, j));
-    }
-  }
-  return vec;
+inline rust::Vec<double> Matrix4dToRustVec(const Matrix4dType& m) {
+  return rust::Vec<double>({m.coeff(0),  m.coeff(1),  m.coeff(2),  m.coeff(3),
+                            m.coeff(4),  m.coeff(5),  m.coeff(6),  m.coeff(7),
+                            m.coeff(8),  m.coeff(9),  m.coeff(10), m.coeff(11),
+                            m.coeff(12), m.coeff(13), m.coeff(14), m.coeff(15)});
 }
 
 template <typename MatrixXdType>
-inline std::unique_ptr<std::vector<double>> MatrixXdToStdVecUniquePtr(const MatrixXdType& m) {
-  auto vec = std::make_unique<std::vector<double>>();
+inline rust::Vec<double> MatrixXdToRustVec(const MatrixXdType& m) {
   const int cols = m.cols();
   const int rows = m.rows();
-  vec->reserve(cols*rows);
+  auto vec = rust::Vec<double>();
+  vec.reserve(cols*rows);
   for (int i=0; i<cols; ++i) {
     for (int j=0; j<rows; ++j) {
-      vec->push_back(m.coeff(i, j));
+      vec.push_back(m.coeff(i, j));
     }
   }
   return vec;
 }
 
-inline Map<const Vector3d> StdVecToVector3dMap(const std::unique_ptr<std::vector<double>>& v) {
-  assert(v->size() == 3);
-  return Map<const Vector3d>(v->data());
-}
-
-inline Map<const Vector4d> StdVecToVector4dMap(const std::unique_ptr<std::vector<double>>& v) {
-  assert(v->size() == 4);
-  return Map<const Vector4d>(v->data());
-}
-
-inline Map<const VectorXd> StdVecToVectorXdMap(const std::unique_ptr<std::vector<double>>& v, 
-                                               const int& size) {
-  return Map<const VectorXd>(v->data(), size);
-}
-
-inline Map<const Matrix3d> StdVecToMatrix3dMap(const std::unique_ptr<std::vector<double>>& m) {
-  return Map<const Matrix3d>(m->data());
-}
-
-inline Map<const Matrix4d> StdVecToMatrix4dMap(const std::unique_ptr<std::vector<double>>& m) {
-  return Map<const Matrix4d>(m->data());
-}
-
-inline Map<const MatrixXd> StdVecToMatrixXdMap(const std::unique_ptr<std::vector<double>>& m,
-                                               const int& cols, const int &rows) {
-  return Map<const MatrixXd>(m->data(), cols, rows);
-}
-
-template <typename VectorType>
-inline std::unique_ptr<std::vector<std::uint32_t>> VectorSize(const VectorType& v) {
-  auto ret = std::unique_ptr<std::vector<std::uint32_t>>();
-  ret->push_back(static_cast<std::uint32_t>(v.size()));
-  return ret;
-}
-
 template <typename MatrixType>
-inline std::unique_ptr<std::vector<std::uint32_t>> MatrixSize(const MatrixType& m) {
-  auto ret = std::unique_ptr<std::vector<std::uint32_t>>();
-  ret->push_back(static_cast<std::uint32_t>(m.rows()));
-  ret->push_back(static_cast<std::uint32_t>(m.cols()));
-  return ret;
+inline rust::Vec<std::uint32_t> MatrixSize(const MatrixType& m) {
+  return rust::Vec<std::uint32_t>({static_cast<std::uint32_t>(m.rows()),
+                                   static_cast<std::uint32_t>(m.cols())});
+}
+
+template <typename StdVecType>
+inline Map<const Vector3d> StdVecToVector3dMap(const StdVecType& v) {
+  assert(v.size() == 3);
+  return Map<const Vector3d>(v.data());
+}
+
+template <typename StdVecType>
+inline Map<const Vector4d> StdVecToVector4dMap(const StdVecType& v) {
+  assert(v.size() == 4);
+  return Map<const Vector4d>(v.data());
+}
+
+template <typename StdVecType>
+inline Map<const VectorXd> StdVecToVectorXdMap(const StdVecType& v, 
+                                               const int& size) {
+  return Map<const VectorXd>(v.data(), size);
+}
+
+template <typename StdVecType>
+inline Map<const Matrix3d> StdVecToMatrix3dMap(const StdVecType& m) {
+  return Map<const Matrix3d>(m.data());
+}
+
+template <typename StdVecType>
+inline Map<const Matrix4d> StdVecToMatrix4dMap(const StdVecType& m) {
+  return Map<const Matrix4d>(m.data());
+}
+
+template <typename StdVecType>
+inline Map<const MatrixXd> StdVecToMatrixXdMap(const StdVecType& m,
+                                               const int& cols, const int &rows) {
+  return Map<const MatrixXd>(m.data(), cols, rows);
 }
 
 }
