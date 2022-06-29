@@ -4,6 +4,8 @@ mod math;
 pub use crate::multibody::model::*;
 pub use crate::multibody::data::*;
 pub use crate::algorithm::frames::*;
+pub use crate::algorithm::rnea::*;
+pub use crate::algorithm::aba::*;
 
 fn main() {
     // let mut model = Model::new();

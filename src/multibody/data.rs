@@ -1,8 +1,7 @@
 use std::vec::Vec;
-use cxx::{UniquePtr, Vector};
+use cxx::UniquePtr;
 use nalgebra::{Vector3, Matrix3, DVector, DMatrix};
 use crate::multibody::Model;
-use crate::math::cxxvec;
 
 #[cxx::bridge(namespace = "pinocchio")]
 pub mod ffi_data {

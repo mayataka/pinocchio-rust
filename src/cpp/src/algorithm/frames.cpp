@@ -1,5 +1,4 @@
 #include "pinocchio-rust/algorithm/frames.hpp"
-
 #include "pinocchio/algorithm/frames.hpp"
 
 #include "pinocchio-rust/math/eigen.hpp"

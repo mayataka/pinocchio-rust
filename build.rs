@@ -1,5 +1,19 @@
 extern crate pkg_config;
 
+// fn bridge_module(dirname: &str, fname: &str) {
+//     cxx_build::bridge("src/multibody/model.rs")
+//         .file("src/cpp/src/multibody/model.cpp")
+//         .include("/usr/include/eigen3")
+//         .include("/opt/openrobots/include")
+//         .include("src/cpp/include")
+//         .flag_if_supported("-std=c++14")
+//         .flag_if_supported("-O3")
+//         .flag_if_supported("-NDEBUG")
+//         .flag_if_supported("-march=native")
+//         .compile("model");
+// }
+
+
 fn main() {
     // Find and link pinocchio-related libraries
     println!("cargo:rustc-link-lib=dylib=stdc++");
@@ -42,9 +56,31 @@ fn main() {
         .flag_if_supported("-NDEBUG")
         .flag_if_supported("-march=native")
         .compile("frames");
+    cxx_build::bridge("src/algorithm/rnea.rs")
+        .file("src/cpp/src/algorithm/rnea.cpp")
+        .include("/usr/include/eigen3")
+        .include("/opt/openrobots/include")
+        .include("src/cpp/include")
+        .flag_if_supported("-std=c++14")
+        .flag_if_supported("-O3")
+        .flag_if_supported("-NDEBUG")
+        .flag_if_supported("-march=native")
+        .compile("rnea");
+    cxx_build::bridge("src/algorithm/aba.rs")
+        .file("src/cpp/src/algorithm/aba.cpp")
+        .include("/usr/include/eigen3")
+        .include("/opt/openrobots/include")
+        .include("src/cpp/include")
+        .flag_if_supported("-std=c++14")
+        .flag_if_supported("-O3")
+        .flag_if_supported("-NDEBUG")
+        .flag_if_supported("-march=native")
+        .compile("aba");
 
     println!("cargo:rerun-if-changed=src/main.rs");
     println!("cargo:rerun-if-changed=src/multibody/model.rs");
     println!("cargo:rerun-if-changed=src/multibody/data.rs");
     println!("cargo:rerun-if-changed=src/algorithm/frames.rs");
+    println!("cargo:rerun-if-changed=src/algorithm/rnea.rs");
+    println!("cargo:rerun-if-changed=src/algorithm/aba.rs");
 }

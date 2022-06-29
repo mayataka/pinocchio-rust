@@ -1,9 +1,6 @@
 use std::vec::Vec;
-use cxx::{UniquePtr, CxxVector};
-use nalgebra::{Vector3, Matrix3, DVector, DMatrix};
 use crate::multibody::Model;
 use crate::multibody::Data;
-use crate::math::cxxvec;
 
 #[cxx::bridge(namespace = "pinocchio")]
 pub mod ffi_frames {
