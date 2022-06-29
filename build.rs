@@ -1,6 +1,7 @@
 extern crate pkg_config;
 
 fn main() {
+    // Find and link pinocchio-related libraries
     println!("cargo:rustc-link-lib=dylib=stdc++");
     let pinocchio= pkg_config::Config::new().atleast_version("2.6.4").statik(false).probe("pinocchio").unwrap();
     for lib in pinocchio.libs {
@@ -9,13 +10,6 @@ fn main() {
     for path in pinocchio.link_paths {
         println!("cargo:rustc-link-search=all={}", path.as_os_str().to_str().unwrap());
     } 
-
-    // For debugging
-    // println!("=====================================================");
-    // println!("=====================================================");
-    // println!("{:?}", pinocchio);
-    // println!("=====================================================");
-    // println!("=====================================================");
 
     cxx_build::bridge("src/multibody/model.rs")
         .file("src/cpp/src/multibody/model.cpp")
@@ -40,5 +34,5 @@ fn main() {
 
     println!("cargo:rerun-if-changed=src/main.rs");
     println!("cargo:rerun-if-changed=src/multibody/model.rs");
-    println!("cargo:rerun-if-changed=src/multibody/data.rs");
+    // println!("cargo:rerun-if-changed=src/multibody/data.rs");
 }

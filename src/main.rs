@@ -1,6 +1,5 @@
-mod math;
 mod multibody;
-
+mod math;
 pub use crate::multibody::model::*;
 pub use crate::multibody::data::*;
 
@@ -13,13 +12,13 @@ fn main() {
 
     let mut manipulator = Model::new();
     manipulator.build_sample_manipulator();
-    let mut manipulator_data = Data::new(&manipulator);
     println!("{}", manipulator);
+    let mut manipulator_data = Data::new(&manipulator);
 
     let mut humanoid = Model::new();
     humanoid.build_sample_humanoid();
-    let mut humanoid_data = Data::new(&humanoid);
     println!("{}", humanoid);
+    let mut humanoid_data = Data::new(&humanoid);
 
     // let frame_placement = humanoid_data.frame_placement(1);
     // println!("{}", frame_placement.unwrap());

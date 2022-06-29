@@ -15,10 +15,10 @@ pub mod ffi_data {
         fn cloneData(data: &UniquePtr<Data>) -> UniquePtr<Data>;
         fn nframesInData(data: &UniquePtr<Data>) -> u32;
         fn njointsInData(data: &UniquePtr<Data>) -> u32;
-        fn frameTranslation(data : &UniquePtr<Data>, frame_id: &u32) -> UniquePtr<CxxVector<f64>>;
-        fn frameRotation(data : &UniquePtr<Data>, frame_id: &u32) -> UniquePtr<CxxVector<f64>>;
-        fn jointTranslation(data : &UniquePtr<Data>, joint_id: &u32) -> UniquePtr<CxxVector<f64>>;
-        fn jointRotation(data : &UniquePtr<Data>, joint_id: &u32) -> UniquePtr<CxxVector<f64>>;
+        // fn frameTranslation(data : &UniquePtr<Data>, frame_id: &u32) -> UniquePtr<CxxVector<f64>>;
+        // fn frameRotation(data : &UniquePtr<Data>, frame_id: &u32) -> UniquePtr<CxxVector<f64>>;
+        // fn jointTranslation(data : &UniquePtr<Data>, joint_id: &u32) -> UniquePtr<CxxVector<f64>>;
+        // fn jointRotation(data : &UniquePtr<Data>, joint_id: &u32) -> UniquePtr<CxxVector<f64>>;
     }
 }
 
@@ -45,44 +45,44 @@ impl Data {
         ffi_data::njointsInData(&self.ptr)
     }
 
-    pub unsafe fn frame_translation(&self, frame_id: u32) -> Option<Vector3<f64>> {
-        if frame_id < self.nframes() {
-            let trans= ffi_data::frameTranslation(&self.ptr, &frame_id);
-            Some(cxxvec::cxxvec_to_vector3(&trans).unwrap())
-        }
-        else {
-            None
-        }
-    }
+    // pub unsafe fn frame_translation(&self, frame_id: u32) -> Option<Vector3<f64>> {
+    //     if frame_id < self.nframes() {
+    //         let trans= ffi_data::frameTranslation(&self.ptr, &frame_id);
+    //         Some(cxxvec::cxxvec_to_vector3(&trans).unwrap())
+    //     }
+    //     else {
+    //         None
+    //     }
+    // }
 
-    pub unsafe fn frame_rotation(&self, frame_id: u32) -> Option<Matrix3<f64>> {
-        if frame_id < self.nframes() {
-            let rot= ffi_data::frameRotation(&self.ptr, &frame_id);
-            Some(cxxvec::cxxvec_to_matrix3(&rot).unwrap())
-        }
-        else {
-            None
-        }
-    }
+    // pub unsafe fn frame_rotation(&self, frame_id: u32) -> Option<Matrix3<f64>> {
+    //     if frame_id < self.nframes() {
+    //         let rot= ffi_data::frameRotation(&self.ptr, &frame_id);
+    //         Some(cxxvec::cxxvec_to_matrix3(&rot).unwrap())
+    //     }
+    //     else {
+    //         None
+    //     }
+    // }
 
-    pub unsafe fn joint_translation(&self, joint_id: u32) -> Option<Vector3<f64>> {
-        if joint_id < self.njoints() {
-            let trans= ffi_data::jointTranslation(&self.ptr, &joint_id);
-            Some(cxxvec::cxxvec_to_vector3(&trans).unwrap())
-        }
-        else {
-            None
-        }
-    }
+    // pub unsafe fn joint_translation(&self, joint_id: u32) -> Option<Vector3<f64>> {
+    //     if joint_id < self.njoints() {
+    //         let trans= ffi_data::jointTranslation(&self.ptr, &joint_id);
+    //         Some(cxxvec::cxxvec_to_vector3(&trans).unwrap())
+    //     }
+    //     else {
+    //         None
+    //     }
+    // }
 
-    pub unsafe fn joint_rotation(&self, joint_id: u32) -> Option<Matrix3<f64>> {
-        if joint_id < self.njoints() {
-            let rot= ffi_data::jointRotation(&self.ptr, &joint_id);
-            Some(cxxvec::cxxvec_to_matrix3(&rot).unwrap())
-        }
-        else {
-            None
-        }
-    }
+    // pub unsafe fn joint_rotation(&self, joint_id: u32) -> Option<Matrix3<f64>> {
+    //     if joint_id < self.njoints() {
+    //         let rot= ffi_data::jointRotation(&self.ptr, &joint_id);
+    //         Some(cxxvec::cxxvec_to_matrix3(&rot).unwrap())
+    //     }
+    //     else {
+    //         None
+    //     }
+    // }
 
 }
