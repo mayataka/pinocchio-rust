@@ -31,7 +31,7 @@ inline std::unique_ptr<std::vector<double>> Vector4dToStdVecUniquePtr(const Vect
 template <typename VectorXdType>
 inline std::unique_ptr<std::vector<double>> VectorXdToStdVecUniquePtr(const VectorXdType& v) {
   auto vec = std::make_unique<std::vector<double>>();
-  const auto size = v.size();
+  const int size = v.size();
   vec->reserve(size);
   for (int i=0; i<size; ++i) {
     vec->push_back(v.coeff(i));
@@ -66,8 +66,8 @@ inline std::unique_ptr<std::vector<double>> Matrix4dToStdVecUniquePtr(const Matr
 template <typename MatrixXdType>
 inline std::unique_ptr<std::vector<double>> MatrixXdToStdVecUniquePtr(const MatrixXdType& m) {
   auto vec = std::make_unique<std::vector<double>>();
-  const auto cols = m.cols();
-  const auto rows = m.rows();
+  const int cols = m.cols();
+  const int rows = m.rows();
   vec->reserve(cols*rows);
   for (int i=0; i<cols; ++i) {
     for (int j=0; j<rows; ++j) {
@@ -103,6 +103,21 @@ inline Map<const Matrix4d> StdVecToMatrix4dMap(const std::unique_ptr<std::vector
 inline Map<const MatrixXd> StdVecToMatrixXdMap(const std::unique_ptr<std::vector<double>>& m,
                                                const int& cols, const int &rows) {
   return Map<const MatrixXd>(m->data(), cols, rows);
+}
+
+template <typename VectorType>
+inline std::unique_ptr<std::vector<std::uint32_t>> VectorSize(const VectorType& v) {
+  auto ret = std::unique_ptr<std::vector<std::uint32_t>>();
+  ret->push_back(static_cast<std::uint32_t>(v.size()));
+  return ret;
+}
+
+template <typename MatrixType>
+inline std::unique_ptr<std::vector<std::uint32_t>> MatrixSize(const MatrixType& m) {
+  auto ret = std::unique_ptr<std::vector<std::uint32_t>>();
+  ret->push_back(static_cast<std::uint32_t>(m.rows()));
+  ret->push_back(static_cast<std::uint32_t>(m.cols()));
+  return ret;
 }
 
 }
