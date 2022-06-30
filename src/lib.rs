@@ -1,8 +1,8 @@
-pub mod joint_configuration;
-pub mod frames;
-pub mod rnea;
-pub mod aba;
-pub mod crba;
+mod multibody;
+mod algorithm;
+
+pub use crate::multibody::model::*;
+pub use crate::multibody::data::*;
 
 pub use crate::algorithm::joint_configuration::*;
 pub use crate::algorithm::frames::*;

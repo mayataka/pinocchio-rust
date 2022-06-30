@@ -2,6 +2,8 @@
 
 #include "pinocchio/multibody/model.hpp"
 
+#include "rust/cxx.h"
+
 #include <memory>
 
 namespace pinocchio {
@@ -38,6 +40,14 @@ std::uint32_t njoints(const std::unique_ptr<Model>& model);
 std::uint32_t nq(const std::unique_ptr<Model>& model);
 
 std::uint32_t nv(const std::unique_ptr<Model>& model);
+
+rust::Vec<double> lowerPositionLimit(const std::unique_ptr<Model>& model);
+
+rust::Vec<double> upperPositionLimit(const std::unique_ptr<Model>& model);
+
+rust::Vec<double> velocityLimit(const std::unique_ptr<Model>& model);
+
+rust::Vec<double> effortLimit(const std::unique_ptr<Model>& model);
 
 std::unique_ptr<std::string> display(const std::unique_ptr<Model>& model);
 

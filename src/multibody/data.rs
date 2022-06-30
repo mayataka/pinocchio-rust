@@ -1,5 +1,5 @@
 use std::vec::Vec;
-use cxx::UniquePtr;
+use cxx::{self, UniquePtr};
 use nalgebra as na;
 use crate::multibody::Model;
 

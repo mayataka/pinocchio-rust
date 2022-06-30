@@ -35,13 +35,16 @@ fn main() {
     } 
     build_bridge_module("multibody", "model");
     build_bridge_module("multibody", "data");
+    build_bridge_module("algorithm", "joint_configuration");
     build_bridge_module("algorithm", "frames");
     build_bridge_module("algorithm", "rnea");
     build_bridge_module("algorithm", "aba");
+    build_bridge_module("algorithm", "crba");
 
     println!("cargo:rerun-if-changed=src/main.rs");
     println!("cargo:rerun-if-changed=src/multibody/model.rs");
     println!("cargo:rerun-if-changed=src/multibody/data.rs");
+    println!("cargo:rerun-if-changed=src/algorithm/joint_configuration.rs");
     println!("cargo:rerun-if-changed=src/algorithm/frames.rs");
     println!("cargo:rerun-if-changed=src/algorithm/rnea.rs");
     println!("cargo:rerun-if-changed=src/algorithm/aba.rs");

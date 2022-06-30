@@ -1,4 +1,5 @@
-#include "pinocchio/multibody/model.hpp"
+#include "pinocchio-rust/multibody/model.hpp"
+#include "pinocchio-rust/math/eigen.hpp"
 
 #include "pinocchio/parsers/urdf.hpp"
 #include "pinocchio/parsers/sample-models.hpp"
@@ -42,12 +43,12 @@ bool existJointName(const std::unique_ptr<Model>& model, const std::string &name
   return model->existJointName(name);
 }
 
-std::int32_t getBodyId(const std::unique_ptr<Model>& model, const std::string &name) {
-  return static_cast<std::int32_t>(model->getBodyId(name));
+std::uint32_t getBodyId(const std::unique_ptr<Model>& model, const std::string &name) {
+  return static_cast<std::uint32_t>(model->getBodyId(name));
 }
 
-std::int32_t getJointId(const std::unique_ptr<Model>& model, const std::string &name) {
-  return static_cast<std::int32_t>(model->getJointId(name));
+std::uint32_t getJointId(const std::unique_ptr<Model>& model, const std::string &name) {
+  return static_cast<std::uint32_t>(model->getJointId(name));
 }
 
 std::unique_ptr<std::string> getModelName(const std::unique_ptr<Model>& model) {
@@ -80,6 +81,22 @@ std::uint32_t nq(const std::unique_ptr<Model>& model) {
 
 std::uint32_t nv(const std::unique_ptr<Model>& model) {
   return static_cast<std::uint32_t>(model->nv);
+}
+
+rust::Vec<double> lowerPositionLimit(const std::unique_ptr<Model>& model) {
+  return Eigen::VectorXdToRustVec(model->lowerPositionLimit);
+}
+
+rust::Vec<double> upperPositionLimit(const std::unique_ptr<Model>& model) {
+  return Eigen::VectorXdToRustVec(model->upperPositionLimit);
+}
+
+rust::Vec<double> velocityLimit(const std::unique_ptr<Model>& model) {
+  return Eigen::VectorXdToRustVec(model->velocityLimit);
+}
+
+rust::Vec<double> effortLimit(const std::unique_ptr<Model>& model) {
+  return Eigen::VectorXdToRustVec(model->effortLimit);
 }
 
 std::unique_ptr<std::string> display(const std::unique_ptr<Model>& model) {

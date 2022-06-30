@@ -1,5 +1,6 @@
 use std::fmt::{self, write};
-use cxx::{UniquePtr, CxxString, let_cxx_string};
+use cxx::{self, UniquePtr, CxxString, let_cxx_string};
+use nalgebra as na;
 
 #[cxx::bridge(namespace = "pinocchio")]
 pub mod ffi_model {
@@ -22,6 +23,10 @@ pub mod ffi_model {
         fn njoints(model: &UniquePtr<Model>) -> u32;
         fn nq(model: &UniquePtr<Model>) -> u32;
         fn nv(model: &UniquePtr<Model>) -> u32;
+        fn lowerPositionLimit(data : &UniquePtr<Model>) -> Vec<f64>;
+        fn upperPositionLimit(data : &UniquePtr<Model>) -> Vec<f64>;
+        fn velocityLimit(data : &UniquePtr<Model>) -> Vec<f64>;
+        fn effortLimit(data : &UniquePtr<Model>) -> Vec<f64>;
         fn display(model: &UniquePtr<Model>) -> UniquePtr<CxxString>;
     }
 }
@@ -109,6 +114,26 @@ impl Model {
 
     pub fn nv(&self) -> usize { 
         ffi_model::nv(&self.ptr) as usize
+    }
+
+    pub fn lower_position_limit(&self) -> na::DVector<f64> {
+        let limit = ffi_model::lowerPositionLimit(&self.ptr);
+        na::DVector::from_vec(limit)
+    }
+
+    pub fn upper_position_limit(&self) -> na::DVector<f64> {
+        let limit = ffi_model::upperPositionLimit(&self.ptr);
+        na::DVector::from_vec(limit)
+    }
+
+    pub fn velocity_limit(&self) -> na::DVector<f64> {
+        let limit = ffi_model::velocityLimit(&self.ptr);
+        na::DVector::from_vec(limit)
+    }
+
+    pub fn effort_limit(&self) -> na::DVector<f64> {
+        let limit = ffi_model::effortLimit(&self.ptr);
+        na::DVector::from_vec(limit)
     }
 
 }

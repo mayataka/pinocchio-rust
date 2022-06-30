@@ -15,7 +15,8 @@ void updateFramePlacements(const std::unique_ptr<Model>& model,
 void framesForwardKinematics(const std::unique_ptr<Model>& model,
                              std::unique_ptr<Data>& data,
                              rust::Slice<const double> q) {
-  framesForwardKinematics(*model.get(), *data.get(), Eigen::VectorXdMap(q, model->nq));
+  framesForwardKinematics(*model.get(), *data.get(), 
+                          Eigen::ConstVectorXdMap(q, model->nq));
 }
 
 }
