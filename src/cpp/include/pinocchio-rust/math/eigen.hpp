@@ -66,36 +66,34 @@ inline rust::Vec<std::uint32_t> MatrixSize(const MatrixType& m) {
 }
 
 template <typename StdVecType>
-inline Map<const Vector3d> StdVecToVector3dMap(const StdVecType& v) {
+inline Map<const Vector3d> Vector3dMap(const StdVecType& v) {
   assert(v.size() == 3);
   return Map<const Vector3d>(v.data());
 }
 
 template <typename StdVecType>
-inline Map<const Vector4d> StdVecToVector4dMap(const StdVecType& v) {
+inline Map<const Vector4d> Vector4dMap(const StdVecType& v) {
   assert(v.size() == 4);
   return Map<const Vector4d>(v.data());
 }
 
 template <typename StdVecType>
-inline Map<const VectorXd> StdVecToVectorXdMap(const StdVecType& v, 
-                                               const int& size) {
+inline Map<const VectorXd> VectorXdMap(const StdVecType& v, const int& size) {
   return Map<const VectorXd>(v.data(), size);
 }
 
 template <typename StdVecType>
-inline Map<const Matrix3d> StdVecToMatrix3dMap(const StdVecType& m) {
+inline Map<const Matrix3d> Matrix3dMap(const StdVecType& m) {
   return Map<const Matrix3d>(m.data());
 }
 
 template <typename StdVecType>
-inline Map<const Matrix4d> StdVecToMatrix4dMap(const StdVecType& m) {
+inline Map<const Matrix4d> Matrix4dMap(const StdVecType& m) {
   return Map<const Matrix4d>(m.data());
 }
 
 template <typename StdVecType>
-inline Map<const MatrixXd> StdVecToMatrixXdMap(const StdVecType& m,
-                                               const int& cols, const int &rows) {
+inline Map<const MatrixXd> MatrixXdMap(const StdVecType& m, const int& cols, const int &rows) {
   return Map<const MatrixXd>(m.data(), cols, rows);
 }
 

@@ -1,5 +1,5 @@
-use cxx::{UniquePtr, CxxString, let_cxx_string};
 use std::fmt::{self, write};
+use cxx::{UniquePtr, CxxString, let_cxx_string};
 
 #[cxx::bridge(namespace = "pinocchio")]
 pub mod ffi_model {
@@ -67,20 +67,20 @@ impl Model {
         ffi_model::buildSampleHumanoid(&mut self.ptr);
     }
 
-    pub fn body_id(&self, name: &str) -> Option<u32> {
+    pub fn body_id(&self, name: &str) -> Option<usize> {
         let_cxx_string!(cxx_name = name);
         if ffi_model::existBodyName(&self.ptr, &cxx_name) {
-            Some(ffi_model::getBodyId(&self.ptr, &cxx_name))
+            Some(ffi_model::getBodyId(&self.ptr, &cxx_name) as usize)
         }
         else {
             None
         }
     }
 
-    pub fn joint_id(&self, name: &str) -> Option<u32> {
+    pub fn joint_id(&self, name: &str) -> Option<usize> {
         let_cxx_string!(cxx_name = name);
         if ffi_model::existBodyName(&self.ptr, &cxx_name) {
-            Some(ffi_model::getJointId(&self.ptr, &cxx_name))
+            Some(ffi_model::getJointId(&self.ptr, &cxx_name) as usize)
         }
         else {
             None
@@ -91,24 +91,24 @@ impl Model {
         ffi_model::getModelName(&self.ptr).to_string()
     }
 
-    pub fn nbodies(&self) -> u32 {
-        ffi_model::nbodies(&self.ptr)
+    pub fn nbodies(&self) -> usize {
+        ffi_model::nbodies(&self.ptr) as usize
     }
 
-    pub fn nframes(&self) -> u32 {
-        ffi_model::nframes(&self.ptr)
+    pub fn nframes(&self) -> usize {
+        ffi_model::nframes(&self.ptr) as usize
     }
 
-    pub fn njoints(&self) -> u32 {
-        ffi_model::njoints(&self.ptr)
+    pub fn njoints(&self) -> usize {
+        ffi_model::njoints(&self.ptr) as usize
     }
 
-    pub fn nq(&self) -> u32 {
-        ffi_model::nq(&self.ptr)
+    pub fn nq(&self) -> usize {
+        ffi_model::nq(&self.ptr) as usize
     }
 
-    pub fn nv(&self) -> u32 {
-        ffi_model::nv(&self.ptr)
+    pub fn nv(&self) -> usize { 
+        ffi_model::nv(&self.ptr) as usize
     }
 
 }

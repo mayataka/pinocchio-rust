@@ -1,18 +1,27 @@
-extern crate pkg_config;
+use pkg_config;
 
-// fn bridge_module(dirname: &str, fname: &str) {
-//     cxx_build::bridge("src/multibody/model.rs")
-//         .file("src/cpp/src/multibody/model.cpp")
-//         .include("/usr/include/eigen3")
-//         .include("/opt/openrobots/include")
-//         .include("src/cpp/include")
-//         .flag_if_supported("-std=c++14")
-//         .flag_if_supported("-O3")
-//         .flag_if_supported("-NDEBUG")
-//         .flag_if_supported("-march=native")
-//         .compile("model");
-// }
-
+fn build_bridge_module(category: &str, module: &str) {
+    let rsfile = String::from("src/");
+    let rsfile = rsfile + category;
+    let rsfile = rsfile + "/";
+    let rsfile = rsfile + module;
+    let rsfile = rsfile + ".rs";
+    let cppfile = String::from("src/cpp/src/");
+    let cppfile = cppfile + category;
+    let cppfile = cppfile + "/";
+    let cppfile = cppfile + module;
+    let cppfile = cppfile + ".cpp";
+    cxx_build::bridge(&rsfile)
+        .file(&cppfile)
+        .include("/usr/include/eigen3")
+        .include("/opt/openrobots/include")
+        .include("src/cpp/include")
+        .flag_if_supported("-std=c++17")
+        .flag_if_supported("-O3")
+        .flag_if_supported("-NDEBUG")
+        .flag_if_supported("-march=native")
+        .compile(module);
+}
 
 fn main() {
     // Find and link pinocchio-related libraries
@@ -24,58 +33,11 @@ fn main() {
     for path in pinocchio.link_paths {
         println!("cargo:rustc-link-search=all={}", path.as_os_str().to_str().unwrap());
     } 
-
-    // TODO: macro for the following build scripts.
-    cxx_build::bridge("src/multibody/model.rs")
-        .file("src/cpp/src/multibody/model.cpp")
-        .include("/usr/include/eigen3")
-        .include("/opt/openrobots/include")
-        .include("src/cpp/include")
-        .flag_if_supported("-std=c++14")
-        .flag_if_supported("-O3")
-        .flag_if_supported("-NDEBUG")
-        .flag_if_supported("-march=native")
-        .compile("model");
-    cxx_build::bridge("src/multibody/data.rs")
-        .file("src/cpp/src/multibody/data.cpp")
-        .include("/usr/include/eigen3")
-        .include("/opt/openrobots/include")
-        .include("src/cpp/include")
-        .flag_if_supported("-std=c++14")
-        .flag_if_supported("-O3")
-        .flag_if_supported("-NDEBUG")
-        .flag_if_supported("-march=native")
-        .compile("data");
-    cxx_build::bridge("src/algorithm/frames.rs")
-        .file("src/cpp/src/algorithm/frames.cpp")
-        .include("/usr/include/eigen3")
-        .include("/opt/openrobots/include")
-        .include("src/cpp/include")
-        .flag_if_supported("-std=c++14")
-        .flag_if_supported("-O3")
-        .flag_if_supported("-NDEBUG")
-        .flag_if_supported("-march=native")
-        .compile("frames");
-    cxx_build::bridge("src/algorithm/rnea.rs")
-        .file("src/cpp/src/algorithm/rnea.cpp")
-        .include("/usr/include/eigen3")
-        .include("/opt/openrobots/include")
-        .include("src/cpp/include")
-        .flag_if_supported("-std=c++14")
-        .flag_if_supported("-O3")
-        .flag_if_supported("-NDEBUG")
-        .flag_if_supported("-march=native")
-        .compile("rnea");
-    cxx_build::bridge("src/algorithm/aba.rs")
-        .file("src/cpp/src/algorithm/aba.cpp")
-        .include("/usr/include/eigen3")
-        .include("/opt/openrobots/include")
-        .include("src/cpp/include")
-        .flag_if_supported("-std=c++14")
-        .flag_if_supported("-O3")
-        .flag_if_supported("-NDEBUG")
-        .flag_if_supported("-march=native")
-        .compile("aba");
+    build_bridge_module("multibody", "model");
+    build_bridge_module("multibody", "data");
+    build_bridge_module("algorithm", "frames");
+    build_bridge_module("algorithm", "rnea");
+    build_bridge_module("algorithm", "aba");
 
     println!("cargo:rerun-if-changed=src/main.rs");
     println!("cargo:rerun-if-changed=src/multibody/model.rs");
