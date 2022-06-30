@@ -15,7 +15,6 @@ rust::Vec<double> integrate(const std::unique_ptr<Model>& model,
   return Eigen::VectorXdToRustVec(qout);
 }
 
-
 rust::Vec<double> interpolate(const std::unique_ptr<Model>& model,
                               rust::Slice<const double> q0,
                               rust::Slice<const double> q1,

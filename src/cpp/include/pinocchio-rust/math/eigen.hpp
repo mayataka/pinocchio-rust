@@ -19,6 +19,11 @@ inline rust::Vec<double> Vector4dToRustVec(const Vector4dType& v) {
   return rust::Vec<double>({v.coeff(0), v.coeff(1), v.coeff(2), v.coeff(3)});
 }
 
+template <typename Vector6dType>
+inline rust::Vec<double> Vector6dToRustVec(const Vector6dType& v) {
+  return rust::Vec<double>({v.coeff(0), v.coeff(1), v.coeff(2), v.coeff(3), v.coeff(4), v.coeff(5)});
+}
+
 template <typename VectorXdType>
 inline rust::Vec<double> VectorXdToRustVec(const VectorXdType& v) {
   const int size = v.size();

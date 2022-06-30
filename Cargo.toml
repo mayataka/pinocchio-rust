@@ -10,6 +10,7 @@ build = "build.rs"
 cxx = "1.0"
 libc = "0.2.94"
 nalgebra = "0.31.0"
+rand = "0.8.5"
 
 [build-dependencies]
 cxx-build = "1.0"

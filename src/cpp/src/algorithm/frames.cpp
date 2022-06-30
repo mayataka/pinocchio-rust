@@ -19,4 +19,29 @@ void framesForwardKinematics(const std::unique_ptr<Model>& model,
                           Eigen::ConstVectorXdMap(q, model->nq));
 }
 
+rust::Vec<double> getFrameVelocity(const std::unique_ptr<Model>& model,
+                                   const std::unique_ptr<Data>& data,
+                                   const std::uint32_t frame_id) {
+  return Eigen::Vector6dToRustVec(
+      getFrameVelocity(*model.get(), *data.get(), frame_id, 
+                       ReferenceFrame::LOCAL_WORLD_ALIGNED).toVector()); 
+}
+
+rust::Vec<double> getFrameAcceleration(const std::unique_ptr<Model>& model,
+                                       const std::unique_ptr<Data>& data,
+                                       const std::uint32_t frame_id) {
+  return Eigen::Vector6dToRustVec(
+      getFrameAcceleration(*model.get(), *data.get(), frame_id, 
+                           ReferenceFrame::LOCAL_WORLD_ALIGNED).toVector()); 
+}
+
+
+rust::Vec<double> getFrameClassicalAcceleration(const std::unique_ptr<Model>& model,
+                                                const std::unique_ptr<Data>& data,
+                                                const std::uint32_t frame_id) {
+  return Eigen::Vector6dToRustVec(
+      getFrameClassicalAcceleration(*model.get(), *data.get(), frame_id, 
+                                    ReferenceFrame::LOCAL_WORLD_ALIGNED).toVector()); 
+}
+
 }

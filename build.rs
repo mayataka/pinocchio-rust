@@ -21,6 +21,9 @@ fn build_bridge_module(category: &str, module: &str) {
         .flag_if_supported("-NDEBUG")
         .flag_if_supported("-march=native")
         .compile(module);
+    let rerun = String::from("cargo:rerun-if-changed=");
+    let rerun = rerun + &rsfile;
+    println!("{}", &rerun);
 }
 
 fn main() {
@@ -37,15 +40,8 @@ fn main() {
     build_bridge_module("multibody", "data");
     build_bridge_module("algorithm", "joint_configuration");
     build_bridge_module("algorithm", "frames");
+    build_bridge_module("algorithm", "kinematics");
     build_bridge_module("algorithm", "rnea");
     build_bridge_module("algorithm", "aba");
     build_bridge_module("algorithm", "crba");
-
-    println!("cargo:rerun-if-changed=src/main.rs");
-    println!("cargo:rerun-if-changed=src/multibody/model.rs");
-    println!("cargo:rerun-if-changed=src/multibody/data.rs");
-    println!("cargo:rerun-if-changed=src/algorithm/joint_configuration.rs");
-    println!("cargo:rerun-if-changed=src/algorithm/frames.rs");
-    println!("cargo:rerun-if-changed=src/algorithm/rnea.rs");
-    println!("cargo:rerun-if-changed=src/algorithm/aba.rs");
 }

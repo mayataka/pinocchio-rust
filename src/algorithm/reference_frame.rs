@@ -2,7 +2,7 @@ use cxx;
 
 #[cxx::bridge(namespace = "pinocchio")]
 pub mod ffi_reference_frame {
-    #[repr(i32)]
+    #[repr(u32)]
     pub enum CxxReferenceFrame {
         Local,
         World,

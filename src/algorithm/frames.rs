@@ -12,6 +12,9 @@ pub mod ffi_frames {
         type Data = crate::multibody::ffi_data::Data;
         fn updateFramePlacements(model: &UniquePtr<Model>, data: &mut UniquePtr<Data>);
         fn framesForwardKinematics(model: &UniquePtr<Model>, data: &mut UniquePtr<Data>, q: &[f64]);
+        fn getFrameVelocity(model: &UniquePtr<Model>, data : &UniquePtr<Data>, frame_id: u32) -> Vec<f64>;
+        fn getFrameAcceleration(model: &UniquePtr<Model>, data : &UniquePtr<Data>, frame_id: u32) -> Vec<f64>;
+        fn getFrameClassicalAcceleration(model: &UniquePtr<Model>, data : &UniquePtr<Data>, frame_id: u32) -> Vec<f64>;
     }
 }
 
@@ -28,5 +31,38 @@ pub fn frames_forward_kinematics(model: &Model, data: &mut Data, q: &na::DVector
     }
     else {
         Err("Invalid size of q".to_string())
+    }
+}
+
+pub fn get_frame_velocity(model: &Model, data: &Data, frame_id: usize) -> Option<na::Vector6<f64>> {
+    if frame_id < model.nframes() {
+        let frame_id = frame_id as u32;
+        let vel = ffi_frames::getFrameVelocity(&model.ptr, &data.ptr, frame_id);
+        Some(na::Vector6::from_vec(vel))
+    }
+    else {
+        None
+    }
+}
+
+pub fn get_frame_acceleration(model: &Model, data: &Data, frame_id: usize) -> Option<na::Vector6<f64>> {
+    if frame_id < model.nframes() {
+        let frame_id = frame_id as u32;
+        let acc = ffi_frames::getFrameAcceleration(&model.ptr, &data.ptr, frame_id);
+        Some(na::Vector6::from_vec(acc))
+    }
+    else {
+        None
+    }
+}
+
+pub fn get_frame_classical_acceleration(model: &Model, data: &Data, frame_id: usize) -> Option<na::Vector6<f64>> {
+    if frame_id < model.nframes() {
+        let frame_id = frame_id as u32;
+        let acc = ffi_frames::getFrameClassicalAcceleration(&model.ptr, &data.ptr, frame_id);
+        Some(na::Vector6::from_vec(acc))
+    }
+    else {
+        None
     }
 }
