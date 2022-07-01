@@ -8,62 +8,73 @@ fn random_dvector(size: usize) -> na::DVector<f64> {
     na::DVector::from_vec(v)
 }
 
-fn main() {
-    // let mut model = pin::Model::new();
-    // let urdf_path = "tests/anymal_b_simple_description/urdf/anymal.urdf";
-    // let base_joint_type = pin::BaseJointType::FloatingBase;
-    // model.build_model_from_urdf(&urdf_path, base_joint_type);
-    // let mut data = pin::Data::new(&model);
+fn run_example(model: &pin::Model, frame_id: usize) {
+    let mut data = pin::Data::new(&model);
 
-    let mut manipulator = pin::Model::new();
-    manipulator.build_sample_manipulator();
-    println!("{}", manipulator);
-    let qmin = manipulator.lower_position_limit();
-    let qmax = manipulator.upper_position_limit();
-    let mut manipulator_data = pin::Data::new(&manipulator);
-
-    // let mut humanoid = pin::Model::new();
-    // humanoid.build_sample_humanoid();
-    // println!("{}", humanoid);
-    // let mut humanoid_data = pin::Data::new(&humanoid);
-
+    let mut qmin = model.lower_position_limit();
+    let mut qmax = model.upper_position_limit();
     println!("qmin: {}", qmin);
     println!("qmax: {}", qmax);
-    let q = pin::random_configuration(&manipulator, &qmin, &qmax).unwrap();
-    let v = random_dvector(manipulator.nv());
-    let a = random_dvector(manipulator.nv());
+    if model.nq() != model.nv() { // if floating base
+        for i in 0..6 {
+            qmin[i] = -1.0;
+            qmax[i] = -1.0;
+        }
+    }
+    let qmin = qmin;
+    let qmax = qmax;
+    let q = pin::random_configuration(&model, &qmin, &qmax).unwrap();
+    let v = random_dvector(model.nv());
+    let a = random_dvector(model.nv());
     println!("q: {}", q);
     println!("v: {}", v);
     println!("a: {}", a);
-    let result = pin::forward_kinematics_acceleration_level(&manipulator, &mut manipulator_data, &q, &v, &a);
-    let result = pin::frames_forward_kinematics(&manipulator, &mut manipulator_data, &q);
+    let result = pin::forward_kinematics_acceleration_level(&model, &mut data, &q, &v, &a);
+    let result = pin::frames_forward_kinematics(&model, &mut data, &q);
 
-    let frame_translation = manipulator_data.frame_translation(6);
-    let frame_translation = frame_translation.unwrap();
+    let frame_translation = data.frame_translation(frame_id).unwrap();
     println!("frame_translation: {}", frame_translation);
-    let frame_rotation = manipulator_data.frame_rotation(6);
-    let frame_rotation = frame_rotation.unwrap();
+    let frame_rotation = data.frame_rotation(frame_id).unwrap();
     println!("frame_rotation: {}", frame_rotation);
-    let frame_velocity = pin::get_frame_velocity(&manipulator, &manipulator_data, 6).unwrap();
+    let frame_velocity = pin::get_frame_velocity(&model, &data, frame_id).unwrap();
     println!("frame_velocity: {}", frame_velocity);
-    let frame_acceleration = pin::get_frame_acceleration(&manipulator, &manipulator_data, 6).unwrap();
+    let frame_acceleration = pin::get_frame_acceleration(&model, &data, frame_id).unwrap();
     println!("frame_acceleration: {}", frame_acceleration);
-    let frame_classical_acceleration = pin::get_frame_classical_acceleration(&manipulator, &manipulator_data, 6).unwrap();
+    let frame_classical_acceleration = pin::get_frame_classical_acceleration(&model, &data, frame_id).unwrap();
     println!("frame_classical_acceleration: {}", frame_classical_acceleration);
 
-    let result = pin::rnea(&manipulator, &mut manipulator_data, &q, &v, &a);
-    let tau = manipulator_data.tau();
-    let tau = tau.unwrap();
+    let result = pin::rnea(&model, &mut data, &q, &v, &a);
+    let tau = data.tau().unwrap();
     println!("tau (rnea): {}", tau);
 
-    let result = pin::aba(&manipulator, &mut manipulator_data, &q, &v, &tau);
-    let ddq = manipulator_data.ddq();
-    let ddq = ddq.unwrap();
+    let result = pin::aba(&model, &mut data, &q, &v, &tau);
+    let ddq = data.ddq().unwrap();
     println!("ddq (aba): {}", ddq);
 
-    let result = pin::crba(&manipulator, &mut manipulator_data, &q);
-    let M = manipulator_data.M();
-    let M = M.unwrap();
+    let result = pin::crba(&model, &mut data, &q);
+    let M = data.M().unwrap();
     println!("M (crba): {}", M);
+}
 
+
+fn main() {
+    let mut manipulator = pin::Model::new();
+    manipulator.build_sample_manipulator();
+    println!("Sample manipulator: {}", manipulator);
+    let frame_id = 7;
+    run_example(&manipulator, frame_id);
+
+    let mut humanoid = pin::Model::new();
+    humanoid.build_sample_humanoid();
+    println!("Sample humanoid: {}", humanoid);
+    let frame_id = 12;
+    run_example(&humanoid, frame_id);
+
+    let mut anymal = pin::Model::new();
+    let urdf_path = "tests/anymal_b_simple_description/urdf/anymal.urdf";
+    let base_joint_type = pin::BaseJointType::FloatingBase;
+    anymal.build_model_from_urdf(&urdf_path, base_joint_type);
+    println!("ANYmal: {}", anymal);
+    let frame_id = 14;
+    run_example(&anymal, frame_id);
 }

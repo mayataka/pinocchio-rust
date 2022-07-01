@@ -9,6 +9,3 @@ This is an experimental repository to use [Pinocchio](https://github.com/stack-o
 ```
 cargo run
 ```
-
-## TODO
-- Link to Pinocchio-related C++ shared libraries (currently pinocchio-rust cannot load URDF)
