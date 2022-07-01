@@ -11,7 +11,7 @@ cargo run
 ```
 
 ## TODO:
-- reference frames
+- SE3
 - Jacobians 
 - Centroidal dynamics
 - Derivatives of dynamics

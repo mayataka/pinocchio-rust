@@ -18,7 +18,7 @@ fn run_example(model: &pin::Model, frame_id: usize) {
     if model.nq() != model.nv() { // if floating base
         for i in 0..6 {
             qmin[i] = -1.0;
-            qmax[i] = -1.0;
+            qmax[i] = 1.0;
         }
     }
     let qmin = qmin;
@@ -36,11 +36,14 @@ fn run_example(model: &pin::Model, frame_id: usize) {
     println!("frame_translation: {}", frame_translation);
     let frame_rotation = data.frame_rotation(frame_id).unwrap();
     println!("frame_rotation: {}", frame_rotation);
-    let frame_velocity = pin::get_frame_velocity(&model, &data, frame_id).unwrap();
+    let rf = pin::ReferenceFrame::Local;
+    let frame_velocity = pin::get_frame_velocity(&model, &data, frame_id, rf).unwrap();
     println!("frame_velocity: {}", frame_velocity);
-    let frame_acceleration = pin::get_frame_acceleration(&model, &data, frame_id).unwrap();
+    let rf = pin::ReferenceFrame::World;
+    let frame_acceleration = pin::get_frame_acceleration(&model, &data, frame_id, rf).unwrap();
     println!("frame_acceleration: {}", frame_acceleration);
-    let frame_classical_acceleration = pin::get_frame_classical_acceleration(&model, &data, frame_id).unwrap();
+    let rf = pin::ReferenceFrame::LocalWorldAligned;
+    let frame_classical_acceleration = pin::get_frame_classical_acceleration(&model, &data, frame_id, rf).unwrap();
     println!("frame_classical_acceleration: {}", frame_classical_acceleration);
 
     let result = pin::rnea(&model, &mut data, &q, &v, &a);
@@ -54,6 +57,16 @@ fn run_example(model: &pin::Model, frame_id: usize) {
     let result = pin::crba(&model, &mut data, &q);
     let M = data.M().unwrap();
     println!("M (crba): {}", M);
+
+    let f = pin::JointForceVector::new(model.njoints());
+
+    let result = pin::rnea_with_external_forces(&model, &mut data, &q, &v, &a, &f);
+    let tau = data.tau().unwrap();
+    println!("tau (rnea with f): {}", tau);
+
+    let result = pin::aba_with_external_forces(&model, &mut data, &q, &v, &tau, &f);
+    let ddq = data.ddq().unwrap();
+    println!("ddq (aba with f): {}", ddq);
 }
 
 

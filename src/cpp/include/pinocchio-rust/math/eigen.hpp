@@ -9,6 +9,8 @@
 
 namespace Eigen {
 
+using Vector6d = Matrix<double, 6, 1>;
+
 template <typename Vector3dType>
 inline rust::Vec<double> Vector3dToRustVec(const Vector3dType& v) {
   return rust::Vec<double>({v.coeff(0), v.coeff(1), v.coeff(2)});
@@ -80,6 +82,18 @@ template <typename StdVecType>
 inline Map<Vector3d> Vector3dMap(StdVecType& v) {
   assert(v.size() == 3);
   return Map<Vector3d>(v.data());
+}
+
+template <typename StdVecType>
+inline Map<const Vector6d> ConstVector6dMap(const StdVecType& v) {
+  assert(v.size() == 6);
+  return Map<const Vector6d>(v.data());
+}
+
+template <typename StdVecType>
+inline Map<Vector6d> Vector6dMap(StdVecType& v) {
+  assert(v.size() == 6);
+  return Map<Vector6d>(v.data());
 }
 
 template <typename StdVecType>
