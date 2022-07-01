@@ -9,3 +9,9 @@ This is an experimental repository to use [Pinocchio](https://github.com/stack-o
 ```
 cargo run
 ```
+
+## TODO:
+- reference frames
+- Jacobians 
+- Centroidal dynamics
+- Derivatives of dynamics
