@@ -72,7 +72,7 @@ impl Model {
         ffi_model::buildSampleHumanoid(&mut self.ptr);
     }
 
-    pub fn body_id(&self, name: &str) -> Option<usize> {
+    pub fn frame_id(&self, name: &str) -> Option<usize> {
         let_cxx_string!(cxx_name = name);
         if ffi_model::existBodyName(&self.ptr, &cxx_name) {
             Some(ffi_model::getBodyId(&self.ptr, &cxx_name) as usize)

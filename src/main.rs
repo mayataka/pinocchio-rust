@@ -75,6 +75,6 @@ fn main() {
     let base_joint_type = pin::BaseJointType::FloatingBase;
     anymal.build_model_from_urdf(&urdf_path, base_joint_type);
     println!("ANYmal: {}", anymal);
-    let frame_id = 14;
+    let frame_id = anymal.frame_id("LF_FOOT").unwrap();
     run_example(&anymal, frame_id);
 }
