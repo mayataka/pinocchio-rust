@@ -7,6 +7,8 @@ This is an experimental repository to use [Pinocchio](https://github.com/stack-o
 
 ## Build and run an example (`src/main.rs`)
 ```
+git clone https://github.com/mayataka/pinocchio-rust
+cd pinocchio-rust
 cargo run
 ```
 
@@ -14,4 +16,5 @@ cargo run
 - SE3
 - Jacobians 
 - Centroidal dynamics
+- Derivatives of kinematics 
 - Derivatives of dynamics

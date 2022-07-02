@@ -67,6 +67,12 @@ fn run_example(model: &pin::Model, frame_id: usize) {
     let result = pin::aba_with_external_forces(&model, &mut data, &q, &v, &tau, &f);
     let ddq = data.ddq().unwrap();
     println!("ddq (aba with f): {}", ddq);
+
+    pin::compute_joint_jacobians(&model, &mut data, &q);
+    let rf = pin::ReferenceFrame::LocalWorldAligned;
+    let mut jac = na::DMatrix::<f64>::zeros(6, model.nv());
+    pin::get_joint_jacobian(&model, &mut data, 6, rf, &mut jac);
+    println!("jac: {}", jac);
 }
 
 
