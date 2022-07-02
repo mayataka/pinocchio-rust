@@ -71,7 +71,7 @@ fn run_example(model: &pin::Model, frame_id: usize) {
     pin::compute_joint_jacobians(&model, &mut data, &q);
     let rf = pin::ReferenceFrame::LocalWorldAligned;
     let mut jac = na::DMatrix::<f64>::zeros(6, model.nv());
-    pin::get_joint_jacobian(&model, &mut data, 6, rf, &mut jac);
+    pin::get_frame_jacobian(&model, &mut data, frame_id, rf, &mut jac);
     println!("jac: {}", jac);
 }
 
