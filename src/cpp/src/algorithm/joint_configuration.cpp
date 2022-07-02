@@ -5,54 +5,49 @@
 
 namespace pinocchio {
 
-rust::Vec<double> integrate(const std::unique_ptr<Model>& model,
-                            rust::Slice<const double> q,
-                            rust::Slice<const double> v) {
-  Eigen::VectorXd qout(model->nq);
+void integrate(const std::unique_ptr<Model>& model,
+               rust::Slice<const double> q,
+               rust::Slice<const double> v,
+               rust::Slice<double> qout) {
   integrate(*model.get(), 
             Eigen::ConstVectorXdMap(q, model->nq), 
-            Eigen::ConstVectorXdMap(v, model->nv), qout);
-  return Eigen::VectorXdToRustVec(qout);
+            Eigen::ConstVectorXdMap(v, model->nv), 
+            Eigen::VectorXdMap(qout, model->nq));
 }
 
-rust::Vec<double> interpolate(const std::unique_ptr<Model>& model,
-                              rust::Slice<const double> q0,
-                              rust::Slice<const double> q1,
-                              const double u) {
-  Eigen::VectorXd qout(model->nq);
+void interpolate(const std::unique_ptr<Model>& model,
+                 rust::Slice<const double> q0,
+                 rust::Slice<const double> q1,
+                 const double u,
+                 rust::Slice<double> qout) {
   interpolate(*model.get(), 
               Eigen::ConstVectorXdMap(q0, model->nq), 
               Eigen::ConstVectorXdMap(q1, model->nq), 
-              u, qout);
-  return Eigen::VectorXdToRustVec(qout);
+              u, Eigen::VectorXdMap(qout, model->nq));
 }
 
-rust::Vec<double> difference(const std::unique_ptr<Model>& model,
-                             rust::Slice<const double> q0,
-                             rust::Slice<const double> q1) {
-  Eigen::VectorXd dvout(model->nv);
+void difference(const std::unique_ptr<Model>& model,
+                rust::Slice<const double> q0,
+                rust::Slice<const double> q1,
+                rust::Slice<double> dvout) {
   difference(*model.get(), 
              Eigen::ConstVectorXdMap(q0, model->nq), 
              Eigen::ConstVectorXdMap(q1, model->nq), 
-             dvout);
-  return Eigen::VectorXdToRustVec(dvout);
+             Eigen::VectorXdMap(dvout, model->nv));
 }
 
-rust::Vec<double> randomConfiguration(const std::unique_ptr<Model>& model,
-                                      rust::Slice<const double> lower_limits,
-                                      rust::Slice<const double> upper_limits) {
-  Eigen::VectorXd qout(model->nq);
+void randomConfiguration(const std::unique_ptr<Model>& model,
+                         rust::Slice<const double> lower_limits,
+                         rust::Slice<const double> upper_limits,
+                         rust::Slice<double> qout) {
   randomConfiguration(*model.get(), 
                       Eigen::ConstVectorXdMap(lower_limits, model->nq), 
                       Eigen::ConstVectorXdMap(upper_limits, model->nq), 
-                      qout);
-  return Eigen::VectorXdToRustVec(qout);
+                      Eigen::VectorXdMap(qout, model->nq));
 }
 
-rust::Vec<double> neutral(const std::unique_ptr<Model>& model) {
-  Eigen::VectorXd qout(model->nq);
-  neutral(*model.get(), qout);
-  return Eigen::VectorXdToRustVec(qout);
+void neutral(const std::unique_ptr<Model>& model, rust::Slice<double> qout) {
+  neutral(*model.get(), Eigen::VectorXdMap(qout, model->nq));
 }
 
 }
