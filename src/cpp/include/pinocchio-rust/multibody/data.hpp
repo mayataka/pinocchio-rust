@@ -18,61 +18,65 @@ std::uint32_t nframesInData(const std::unique_ptr<Data>& data);
 
 std::uint32_t njointsInData(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> frameTranslation(const std::unique_ptr<Data>& data, const std::uint32_t& frame_id);
+void frameTranslation(const std::unique_ptr<Data>& data, const std::uint32_t frame_id, rust::Slice<double> out);
 
-rust::Vec<double> frameRotation(const std::unique_ptr<Data>& data, const std::uint32_t& frame_id);
+void frameRotation(const std::unique_ptr<Data>& data, const std::uint32_t frame_id, rust::Slice<double> out);
 
-rust::Vec<double> jointTranslation(const std::unique_ptr<Data>& data, const std::uint32_t& joint_id);
+void jointTranslation(const std::unique_ptr<Data>& data, const std::uint32_t joint_id, rust::Slice<double> out);
 
-rust::Vec<double> jointRotation(const std::unique_ptr<Data>& data, const std::uint32_t& joint_id);
+void jointRotation(const std::unique_ptr<Data>& data, const std::uint32_t joint_id, rust::Slice<double> out);
 
-rust::Vec<double> com(const std::unique_ptr<Data>& data);
+void com(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
-rust::Vec<double> vcom(const std::unique_ptr<Data>& data);
+void vcom(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
-rust::Vec<double> acom(const std::unique_ptr<Data>& data);
+void acom(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
-rust::Vec<double> J(const std::unique_ptr<Data>& data);
+void J(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> J_size(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> dJ(const std::unique_ptr<Data>& data);
+void dJ(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> dJ_size(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> M(const std::unique_ptr<Data>& data);
+void M(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> M_size(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> Minv(const std::unique_ptr<Data>& data);
+void Minv(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> Minv_size(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> ddq(const std::unique_ptr<Data>& data);
+void ddq(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
-rust::Vec<double> ddq_dq(const std::unique_ptr<Data>& data);
+std::uint32_t ddq_size(const std::unique_ptr<Data>& data);
+
+void ddq_dq(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> ddq_dq_size(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> ddq_dv(const std::unique_ptr<Data>& data);
+void ddq_dv(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> ddq_dv_size(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> ddq_dtau(const std::unique_ptr<Data>& data);
+void ddq_dtau(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> ddq_dtau_size(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> tau(const std::unique_ptr<Data>& data);
+void tau(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
-rust::Vec<double> dtau_dq(const std::unique_ptr<Data>& data);
+std::uint32_t tau_size(const std::unique_ptr<Data>& data);
+
+void dtau_dq(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> dtau_dq_size(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> dtau_dv(const std::unique_ptr<Data>& data);
+void dtau_dv(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> dtau_dv_size(const std::unique_ptr<Data>& data);
 
-rust::Vec<double> dtau_da(const std::unique_ptr<Data>& data);
+void dtau_da(const std::unique_ptr<Data>& data, rust::Slice<double> out);
 
 rust::Vec<std::uint32_t> dtau_da_size(const std::unique_ptr<Data>& data);
 

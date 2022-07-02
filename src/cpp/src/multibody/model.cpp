@@ -18,7 +18,7 @@ std::unique_ptr<Model> cloneModel(const std::unique_ptr<Model>& model) {
 
 void buildModelFromUrdf(std::unique_ptr<Model>& model, 
                         const std::string& urdf_path,
-                        const bool& floating_base) {
+                        const bool floating_base) {
   if (floating_base) {
     urdf::buildModel(urdf_path, JointModelFreeFlyer(), *model.get());
   }
@@ -83,20 +83,24 @@ std::uint32_t nv(const std::unique_ptr<Model>& model) {
   return static_cast<std::uint32_t>(model->nv);
 }
 
-rust::Vec<double> lowerPositionLimit(const std::unique_ptr<Model>& model) {
-  return Eigen::VectorXdToRustVec(model->lowerPositionLimit);
+void lowerPositionLimit(const std::unique_ptr<Model>& model,
+                        rust::Slice<double> qout) {
+  Eigen::VectorXdMap(qout, model->nq) = model->lowerPositionLimit;
 }
 
-rust::Vec<double> upperPositionLimit(const std::unique_ptr<Model>& model) {
-  return Eigen::VectorXdToRustVec(model->upperPositionLimit);
+void upperPositionLimit(const std::unique_ptr<Model>& model,
+                        rust::Slice<double> qout) {
+  Eigen::VectorXdMap(qout, model->nq) = model->upperPositionLimit;
 }
 
-rust::Vec<double> velocityLimit(const std::unique_ptr<Model>& model) {
-  return Eigen::VectorXdToRustVec(model->velocityLimit);
+void velocityLimit(const std::unique_ptr<Model>& model,
+                   rust::Slice<double> vout) {
+  Eigen::VectorXdMap(vout, model->nv) = model->velocityLimit;
 }
 
-rust::Vec<double> effortLimit(const std::unique_ptr<Model>& model) {
-  return Eigen::VectorXdToRustVec(model->effortLimit);
+void effortLimit(const std::unique_ptr<Model>& model,
+                 rust::Slice<double> tauout) {
+  Eigen::VectorXdMap(tauout, model->nv) = model->effortLimit;
 }
 
 std::unique_ptr<std::string> display(const std::unique_ptr<Model>& model) {

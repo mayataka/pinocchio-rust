@@ -13,7 +13,7 @@ std::unique_ptr<Model> createModel();
 std::unique_ptr<Model> cloneModel(const std::unique_ptr<Model>& model);
 
 void buildModelFromUrdf(std::unique_ptr<Model>& model, const std::string& urdf_path,
-                        const bool& floating_base);
+                        const bool floating_base);
 
 void buildSampleManipulator(std::unique_ptr<Model>& model);
 
@@ -41,13 +41,17 @@ std::uint32_t nq(const std::unique_ptr<Model>& model);
 
 std::uint32_t nv(const std::unique_ptr<Model>& model);
 
-rust::Vec<double> lowerPositionLimit(const std::unique_ptr<Model>& model);
+void lowerPositionLimit(const std::unique_ptr<Model>& model,
+                        rust::Slice<double> qout);
 
-rust::Vec<double> upperPositionLimit(const std::unique_ptr<Model>& model);
+void upperPositionLimit(const std::unique_ptr<Model>& model,
+                        rust::Slice<double> qout);
 
-rust::Vec<double> velocityLimit(const std::unique_ptr<Model>& model);
+void velocityLimit(const std::unique_ptr<Model>& model,
+                   rust::Slice<double> vout);
 
-rust::Vec<double> effortLimit(const std::unique_ptr<Model>& model);
+void effortLimit(const std::unique_ptr<Model>& model,
+                 rust::Slice<double> tauout);
 
 std::unique_ptr<std::string> display(const std::unique_ptr<Model>& model);
 

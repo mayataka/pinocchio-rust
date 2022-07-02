@@ -10,7 +10,7 @@ pub mod ffi_model {
         type Model;
         fn createModel() -> UniquePtr<Model>;
         fn cloneModel(model: &UniquePtr<Model>) -> UniquePtr<Model>;
-        fn buildModelFromUrdf(model: &mut UniquePtr<Model>, urdf_path: &CxxString, floating_base: &bool);
+        fn buildModelFromUrdf(model: &mut UniquePtr<Model>, urdf_path: &CxxString, floating_base: bool);
         fn buildSampleManipulator(model: &mut UniquePtr<Model>);
         fn buildSampleHumanoid(model: &mut UniquePtr<Model>);
         fn existBodyName(model: &UniquePtr<Model>, name: &CxxString) -> bool;
@@ -23,10 +23,10 @@ pub mod ffi_model {
         fn njoints(model: &UniquePtr<Model>) -> u32;
         fn nq(model: &UniquePtr<Model>) -> u32;
         fn nv(model: &UniquePtr<Model>) -> u32;
-        fn lowerPositionLimit(data : &UniquePtr<Model>) -> Vec<f64>;
-        fn upperPositionLimit(data : &UniquePtr<Model>) -> Vec<f64>;
-        fn velocityLimit(data : &UniquePtr<Model>) -> Vec<f64>;
-        fn effortLimit(data : &UniquePtr<Model>) -> Vec<f64>;
+        fn lowerPositionLimit(data : &UniquePtr<Model>, qout: &mut [f64]);
+        fn upperPositionLimit(data : &UniquePtr<Model>, qout: &mut [f64]);
+        fn velocityLimit(data : &UniquePtr<Model>, vout: &mut [f64]);
+        fn effortLimit(data : &UniquePtr<Model>, tauout: &mut [f64]);
         fn display(model: &UniquePtr<Model>) -> UniquePtr<CxxString>;
     }
 }
@@ -56,11 +56,11 @@ impl Model {
         let_cxx_string!(cxx_urdf_path = urdf_path);
         if let BaseJointType::FloatingBase = base_joint_type {
             let floating_base = true;
-            ffi_model::buildModelFromUrdf(&mut self.ptr, &cxx_urdf_path, &floating_base);
+            ffi_model::buildModelFromUrdf(&mut self.ptr, &cxx_urdf_path, floating_base);
         }
         else {
             let floating_base = false;
-            ffi_model::buildModelFromUrdf(&mut self.ptr, &cxx_urdf_path, &floating_base);
+            ffi_model::buildModelFromUrdf(&mut self.ptr, &cxx_urdf_path, floating_base);
         }
     }
 
@@ -117,23 +117,31 @@ impl Model {
     }
 
     pub fn lower_position_limit(&self) -> na::DVector<f64> {
-        let limit = ffi_model::lowerPositionLimit(&self.ptr);
-        na::DVector::from_vec(limit)
+        let mut q = na::DVector::<f64>::zeros(self.nq());
+        let q_mut_slice = q.as_mut_slice();
+        ffi_model::lowerPositionLimit(&self.ptr, q_mut_slice);
+        q
     }
 
     pub fn upper_position_limit(&self) -> na::DVector<f64> {
-        let limit = ffi_model::upperPositionLimit(&self.ptr);
-        na::DVector::from_vec(limit)
+        let mut q = na::DVector::<f64>::zeros(self.nq());
+        let q_mut_slice = q.as_mut_slice();
+        ffi_model::upperPositionLimit(&self.ptr, q_mut_slice);
+        q
     }
 
     pub fn velocity_limit(&self) -> na::DVector<f64> {
-        let limit = ffi_model::velocityLimit(&self.ptr);
-        na::DVector::from_vec(limit)
+        let mut v = na::DVector::<f64>::zeros(self.nv());
+        let v_mut_slice = v.as_mut_slice();
+        ffi_model::velocityLimit(&self.ptr, v_mut_slice);
+        v
     }
 
     pub fn effort_limit(&self) -> na::DVector<f64> {
-        let limit = ffi_model::effortLimit(&self.ptr);
-        na::DVector::from_vec(limit)
+        let mut tau = na::DVector::<f64>::zeros(self.nv());
+        let tau_mut_slice = tau.as_mut_slice();
+        ffi_model::effortLimit(&self.ptr, tau_mut_slice);
+        tau
     }
 
 }

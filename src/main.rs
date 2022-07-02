@@ -47,25 +47,25 @@ fn run_example(model: &pin::Model, frame_id: usize) {
     println!("frame_classical_acceleration: {}", frame_classical_acceleration);
 
     let result = pin::rnea(&model, &mut data, &q, &v, &a);
-    let tau = data.tau().unwrap();
+    let tau = data.tau();
     println!("tau (rnea): {}", tau);
 
     let result = pin::aba(&model, &mut data, &q, &v, &tau);
-    let ddq = data.ddq().unwrap();
+    let ddq = data.ddq();
     println!("ddq (aba): {}", ddq);
 
     let result = pin::crba(&model, &mut data, &q);
-    let M = data.M().unwrap();
+    let M = data.M();
     println!("M (crba): {}", M);
 
     let f = pin::JointForceVector::new(model.njoints());
 
     let result = pin::rnea_with_external_forces(&model, &mut data, &q, &v, &a, &f);
-    let tau = data.tau().unwrap();
+    let tau = data.tau();
     println!("tau (rnea with f): {}", tau);
 
     let result = pin::aba_with_external_forces(&model, &mut data, &q, &v, &tau, &f);
-    let ddq = data.ddq().unwrap();
+    let ddq = data.ddq();
     println!("ddq (aba with f): {}", ddq);
 
     pin::compute_joint_jacobians(&model, &mut data, &q);
