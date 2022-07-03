@@ -36,6 +36,9 @@ fn run_example(model: &pin::Model, frame_id: usize) {
     println!("frame_translation: {}", frame_translation);
     let frame_rotation = data.frame_rotation(frame_id).unwrap();
     println!("frame_rotation: {}", frame_rotation);
+    let frame_placement = data.frame_placement(frame_id).unwrap();
+    println!("frame_placement: {}", frame_placement);
+
     let rf = pin::ReferenceFrame::Local;
     let frame_velocity = pin::get_frame_velocity(&model, &data, frame_id, rf).unwrap();
     println!("frame_velocity: {}", frame_velocity);
@@ -68,10 +71,10 @@ fn run_example(model: &pin::Model, frame_id: usize) {
     let ddq = data.ddq();
     println!("ddq (aba with f): {}", ddq);
 
-    pin::compute_joint_jacobians(&model, &mut data, &q);
+    let result = pin::compute_joint_jacobians(&model, &mut data, &q);
     let rf = pin::ReferenceFrame::LocalWorldAligned;
     let mut jac = na::DMatrix::<f64>::zeros(6, model.nv());
-    pin::get_frame_jacobian(&model, &mut data, frame_id, rf, &mut jac);
+    let result = pin::get_frame_jacobian(&model, &mut data, frame_id, rf, &mut jac);
     println!("jac: {}", jac);
 }
 

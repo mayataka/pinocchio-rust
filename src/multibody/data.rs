@@ -2,6 +2,7 @@ use std::vec::Vec;
 use cxx::{self, UniquePtr};
 use nalgebra as na;
 use crate::multibody::Model;
+use crate::spatial::SE3;
 
 #[cxx::bridge(namespace = "pinocchio")]
 pub mod ffi_data {
@@ -97,6 +98,18 @@ impl Data {
         }
     }
 
+    pub fn frame_placement(&self, frame_id: usize) -> Option<SE3> {
+        if frame_id < self.nframes() {
+            let rotation = self.frame_rotation(frame_id).unwrap();
+            let translation = self.frame_translation(frame_id).unwrap();
+            let out = SE3::new_from_parts(&rotation, &translation);
+            Some(out)
+        }
+        else {
+            None
+        }
+    }
+
     pub fn joint_translation(&self, joint_id: usize) -> Option<na::Vector3<f64>> {
         if joint_id < self.njoints() {
             let joint_id = joint_id as u32;
@@ -116,6 +129,18 @@ impl Data {
             let mut out = na::Matrix3::<f64>::zeros();
             let out_mut_slice = out.as_mut_slice();
             ffi_data::jointRotation(&self.ptr, joint_id, out_mut_slice);
+            Some(out)
+        }
+        else {
+            None
+        }
+    }
+
+    pub fn joint_placement(&self, joint_id: usize) -> Option<SE3> {
+        if joint_id < self.nframes() {
+            let rotation = self.joint_rotation(joint_id).unwrap();
+            let translation = self.joint_translation(joint_id).unwrap();
+            let out = SE3::new_from_parts(&rotation, &translation);
             Some(out)
         }
         else {

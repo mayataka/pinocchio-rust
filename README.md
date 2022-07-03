@@ -13,8 +13,6 @@ cargo run
 ```
 
 ## TODO:
-- SE3
-- Jacobians 
 - Centroidal dynamics
 - Derivatives of kinematics 
 - Derivatives of dynamics

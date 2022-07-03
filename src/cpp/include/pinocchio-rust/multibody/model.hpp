@@ -53,6 +53,6 @@ void velocityLimit(const std::unique_ptr<Model>& model,
 void effortLimit(const std::unique_ptr<Model>& model,
                  rust::Slice<double> tauout);
 
-std::unique_ptr<std::string> display(const std::unique_ptr<Model>& model);
+std::unique_ptr<std::string> displayModel(const std::unique_ptr<Model>& model);
 
 }

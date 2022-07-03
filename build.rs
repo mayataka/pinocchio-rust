@@ -39,6 +39,8 @@ fn main() {
     build_bridge_module("multibody", "model");
     build_bridge_module("multibody", "data");
 
+    build_bridge_module("spatial", "se3");
+
     build_bridge_module("container", "joint_force_vector");
 
     build_bridge_module("algorithm", "joint_configuration");

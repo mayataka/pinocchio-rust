@@ -10,6 +10,7 @@
 namespace Eigen {
 
 using Vector6d = Matrix<double, 6, 1>;
+using Matrix6d = Matrix<double, 6, 6>;
 
 template <typename MatrixType>
 inline rust::Vec<std::uint32_t> MatrixSize(const MatrixType& m) {
@@ -59,6 +60,16 @@ inline Map<const Matrix3d> ConstMatrix3dMap(const StdVecType& m) {
 template <typename StdVecType>
 inline Map<Matrix3d> Matrix3dMap(StdVecType& m) {
   return Map<Matrix3d>(m.data());
+}
+
+template <typename StdVecType>
+inline Map<const Matrix6d> ConstMatrix6dMap(const StdVecType& m) {
+  return Map<const Matrix6d>(m.data());
+}
+
+template <typename StdVecType>
+inline Map<Matrix6d> Matrix6dMap(StdVecType& m) {
+  return Map<Matrix6d>(m.data());
 }
 
 template <typename StdVecType>

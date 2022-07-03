@@ -27,7 +27,7 @@ pub mod ffi_model {
         fn upperPositionLimit(data : &UniquePtr<Model>, qout: &mut [f64]);
         fn velocityLimit(data : &UniquePtr<Model>, vout: &mut [f64]);
         fn effortLimit(data : &UniquePtr<Model>, tauout: &mut [f64]);
-        fn display(model: &UniquePtr<Model>) -> UniquePtr<CxxString>;
+        fn displayModel(model: &UniquePtr<Model>) -> UniquePtr<CxxString>;
     }
 }
 
@@ -149,7 +149,7 @@ impl Model {
 
 impl fmt::Display for Model {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let cxx_str = ffi_model::display(&self.ptr);
+        let cxx_str = ffi_model::displayModel(&self.ptr);
         write!(f, "{}", cxx_str.to_string())
     }
 }

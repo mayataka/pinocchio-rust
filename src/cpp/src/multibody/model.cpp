@@ -103,7 +103,7 @@ void effortLimit(const std::unique_ptr<Model>& model,
   Eigen::VectorXdMap(tauout, model->nv) = model->effortLimit;
 }
 
-std::unique_ptr<std::string> display(const std::unique_ptr<Model>& model) {
+std::unique_ptr<std::string> displayModel(const std::unique_ptr<Model>& model) {
   std::stringstream ss; 
   ss << *model.get();
   return std::make_unique<std::string>(ss.str());

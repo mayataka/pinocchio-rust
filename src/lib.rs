@@ -1,9 +1,12 @@
 mod multibody;
+mod spatial;
 mod container;
 mod algorithm;
 
 pub use crate::multibody::model::*;
 pub use crate::multibody::data::*;
+
+pub use crate::spatial::se3::*;
 
 pub use crate::container::joint_force_vector::*;
 
