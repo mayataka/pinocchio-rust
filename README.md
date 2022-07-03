@@ -9,7 +9,8 @@ This is an experimental repository to use [Pinocchio](https://github.com/stack-o
 ```
 git clone https://github.com/mayataka/pinocchio-rust
 cd pinocchio-rust
-cargo run
+cargo build 
+cargo run --example run_examples
 ```
 
 ## TODO:

@@ -61,7 +61,9 @@ fn run_example(model: &pin::Model, frame_id: usize) {
     let M = data.M();
     println!("M (crba): {}", M);
 
-    let f = pin::JointForceVector::new(model.njoints());
+    let mut f = pin::JointForceVector::new(model.njoints());
+    let jforce = na::Vector6::<f64>::new(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+    f.set_force(6, &jforce);
 
     let result = pin::rnea_with_external_forces(&model, &mut data, &q, &v, &a, &f);
     let tau = data.tau();
@@ -93,7 +95,7 @@ fn main() {
     run_example(&humanoid, frame_id);
 
     let mut anymal = pin::Model::new();
-    let urdf_path = "tests/anymal_b_simple_description/urdf/anymal.urdf";
+    let urdf_path = "examples/anymal_b_simple_description/urdf/anymal.urdf";
     let base_joint_type = pin::BaseJointType::FloatingBase;
     anymal.build_model_from_urdf(&urdf_path, base_joint_type);
     println!("ANYmal: {}", anymal);
